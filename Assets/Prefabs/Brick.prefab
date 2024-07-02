@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 5996951559774991376}
   - component: {fileID: 6949327600042337597}
   - component: {fileID: 931093072860651982}
-  m_Layer: 0
+  - component: {fileID: 8268153601306126496}
+  m_Layer: 7
   m_Name: brickVisual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -83,6 +84,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &8268153601306126496
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8372583466256128595}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000005, y: 1.0000004, z: 0.29989842}
+  m_Center: {x: 0.0000060945777, y: -0.0000002920447, z: 0.14994931}
 --- !u!1001 &1945946931556830555
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -136,7 +150,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3514014238750037123, guid: a7b3c3a7041328d488e5da3a8382b8e4, type: 3}
       propertyPath: m_Name
-      value: Brick (1)
+      value: Brick
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7b3c3a7041328d488e5da3a8382b8e4, type: 3}
@@ -145,3 +159,21 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 84556903616819943, guid: a7b3c3a7041328d488e5da3a8382b8e4, type: 3}
   m_PrefabInstance: {fileID: 1945946931556830555}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &3153976839352392152 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3514014238750037123, guid: a7b3c3a7041328d488e5da3a8382b8e4, type: 3}
+  m_PrefabInstance: {fileID: 1945946931556830555}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4929393834585733627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3153976839352392152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b246fe1ef75bd94788b244170d0eae8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  brick: {fileID: 8372583466256128595}
