@@ -128,7 +128,21 @@ public class PlayerController : MonoBehaviour
         //Debug.Log("Move " + direction);
         rigidbody.velocity = direction;
     }
+    private void CheckCollide()
+    {
+        if (isMoving)
+        {
+            if (CheckCollideWithWall())
+            {
+                Debug.Log("CollideWall");
+                ChangeToIdle();
+            }
+            FillBridge();
+            CollectBrick();
+        }
+    }
 
+    #region HandleBrick
     private void AddBricks()
     {
         var brick = LazyPool.Instance.getObj(brickPrefabs);
@@ -164,11 +178,6 @@ public class PlayerController : MonoBehaviour
         bricksList.Clear();
         UpdateVisualBricks();
     }
-
-    private bool CanFillBridge()
-    {
-        return bricksList.Count > 0;
-    }
     private void UpdateVisualBricks()
     {
         Vector3 pos = Vector3.zero;
@@ -181,25 +190,6 @@ public class PlayerController : MonoBehaviour
         playerVisual.transform.localPosition = pos;
     }
     
-    private void CheckCollide()
-    {
-        if (isMoving)
-        {
-            if (CheckCollideWithWall())
-            {
-                ChangeToIdle();
-            }
-            FillBridge();
-            CollectBrick();
-        }
-    }
-
-    private void ChangeToIdle()
-    {
-        isMoving = false;
-        Move(Vector3.zero);
-        animator.SetBool(JumpAnimName, false);
-    }
     private void CollectBrick()
     {
         RaycastHit hit;
@@ -215,6 +205,22 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+    #endregion
+    private bool CanFillBridge()
+    {
+        return bricksList.Count > 0;
+    }
+   
+    
+   
+
+    private void ChangeToIdle()
+    {
+        isMoving = false;
+        Move(Vector3.zero);
+        animator.SetBool(JumpAnimName, false);
+    }
+   
 
     private void FillBridge()
     {
@@ -265,6 +271,21 @@ public class PlayerController : MonoBehaviour
         {
             ChangeToWinState();
         }
+
+        if (other.CompareTag("BouncePlatform"))
+        {
+            Debug.Log("Bounce");
+            var bounce = other.GetComponent<BounceObj>();
+            BounceToDirection(bounce.GetDirectionBounce(moveDirection));
+        }
+    }
+
+    private void BounceToDirection(Vector3 direction)
+    {
+        moveDirection = direction;
+        
+        isMoving = true;
+        Move(moveDirection*moveSpeed);
     }
 
     private void ChangeToWinState()
