@@ -22,7 +22,8 @@ public class PlayerController : MonoBehaviour
 
     [Header("Bridge fill")]
     [SerializeField] private LayerMask bridgeLayerMask;
-    
+
+    private Animator animator;
     
     private List<Transform> bricksList;
     private Rigidbody rigidbody;
@@ -33,10 +34,14 @@ public class PlayerController : MonoBehaviour
     private Vector3 moveDirection;
     private PlayerMoveDirection moveDirectionEnum;
     private bool isMoving;
+    private static readonly int JumpAnimName = Animator.StringToHash("Jump");
+    private static readonly int WinAnimName = Animator.StringToHash("Win");
+
 
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
+        animator = GetComponentInChildren<Animator>();
     }
 
     // Start is called before the first frame update
@@ -127,6 +132,7 @@ public class PlayerController : MonoBehaviour
     private void AddBricks()
     {
         var brick = Instantiate(brickPrefabs, brickParent);
+        animator.SetBool(JumpAnimName, true);
         if (bricksList == null)
         {
             bricksList = new List<Transform>();
@@ -170,14 +176,19 @@ public class PlayerController : MonoBehaviour
         {
             if (CheckCollideWithWall())
             {
-                isMoving = false;
-                Move(Vector3.zero);
+                ChangeToIdle();
             }
             FillBridge();
             CollectBrick();
         }
     }
 
+    private void ChangeToIdle()
+    {
+        isMoving = false;
+        Move(Vector3.zero);
+        animator.SetBool(JumpAnimName, false);
+    }
     private void CollectBrick()
     {
         RaycastHit hit;
@@ -216,8 +227,7 @@ public class PlayerController : MonoBehaviour
             //if bridge is not fill and player doesn't have enough brick to fill
             if (!CanFillBridge())
             {
-                isMoving = false;
-                Move(Vector3.zero);
+                ChangeToIdle();
                 return;
             }
             //fill bridge
