@@ -138,6 +138,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: winningPlatform
       objectReference: {fileID: 0}
+    - target: {fileID: 3514014238750037123, guid: a7b3c3a7041328d488e5da3a8382b8e4, type: 3}
+      propertyPath: m_TagString
+      value: WinPos
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7b3c3a7041328d488e5da3a8382b8e4, type: 3}
 --- !u!4 &5989615448647602501 stripped

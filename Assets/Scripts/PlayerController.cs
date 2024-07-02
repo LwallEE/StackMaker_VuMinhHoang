@@ -131,7 +131,8 @@ public class PlayerController : MonoBehaviour
 
     private void AddBricks()
     {
-        var brick = Instantiate(brickPrefabs, brickParent);
+        var brick = LazyPool.Instance.getObj(brickPrefabs);
+        brick.transform.SetParent(brickParent);
         animator.SetBool(JumpAnimName, true);
         if (bricksList == null)
         {
@@ -146,12 +147,22 @@ public class PlayerController : MonoBehaviour
         if (bricksList.Count > 0)
         {
        
-            Destroy(bricksList[bricksList.Count-1].gameObject);
+            LazyPool.Instance.AddObjectToPool(bricksList[bricksList.Count-1].gameObject);
            
             bricksList.RemoveAt(bricksList.Count-1);
             
             UpdateVisualBricks();
         }
+    }
+
+    private void ClearAllBrick()
+    {
+        foreach (var brick in bricksList)
+        {
+            LazyPool.Instance.AddObjectToPool(brick.gameObject);
+        }
+        bricksList.Clear();
+        UpdateVisualBricks();
     }
 
     private bool CanFillBridge()
@@ -246,6 +257,23 @@ public class PlayerController : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.DrawLine(checkRaycastPoint.position, checkRaycastPoint.position + Vector3.right*distanceCheckRaycast);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("WinPos"))
+        {
+            ChangeToWinState();
+        }
+    }
+
+    private void ChangeToWinState()
+    {
+        isMoving = false;
+        Move(Vector3.zero);
+        animator.SetBool(JumpAnimName, false);
+        animator.SetBool(WinAnimName, true);
+        ClearAllBrick();
     }
 }
 
