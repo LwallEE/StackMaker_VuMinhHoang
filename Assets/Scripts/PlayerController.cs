@@ -19,6 +19,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform brickParent;
     [SerializeField] private float distanceBetweenBrick;
     [SerializeField] private Transform playerVisual;
+
+    [Header("Bridge fill")]
+    [SerializeField] private LayerMask bridgeLayerMask;
+    
     
     private List<Transform> bricksList;
     private Rigidbody rigidbody;
@@ -130,6 +134,24 @@ public class PlayerController : MonoBehaviour
         bricksList.Add(brick.transform);
         UpdateVisualBricks();
     }
+
+    private void RemoveBrick()
+    {
+        if (bricksList.Count > 0)
+        {
+       
+            Destroy(bricksList[bricksList.Count-1].gameObject);
+           
+            bricksList.RemoveAt(bricksList.Count-1);
+            
+            UpdateVisualBricks();
+        }
+    }
+
+    private bool CanFillBridge()
+    {
+        return bricksList.Count > 0;
+    }
     private void UpdateVisualBricks()
     {
         Vector3 pos = Vector3.zero;
@@ -151,6 +173,7 @@ public class PlayerController : MonoBehaviour
                 isMoving = false;
                 Move(Vector3.zero);
             }
+            FillBridge();
             CollectBrick();
         }
     }
@@ -162,12 +185,47 @@ public class PlayerController : MonoBehaviour
         if (hit.collider != null)
         {
             Debug.Log("Get brick");
-            var brick = hit.collider.GetComponentInParent<Brick>();
+            var brick = hit.collider.GetComponent<Brick>();
             if (brick != null && brick.CanGetBrick())
             {
                 brick.PlayerGetBrick();
                 AddBricks();
             }
+        }
+    }
+
+    private void FillBridge()
+    {
+        
+        RaycastHit hit;
+        Physics.Raycast(checkRaycastPoint.position, moveDirection,out hit, distanceCheckRaycast, bridgeLayerMask);
+        if (hit.collider != null)
+        {
+            Debug.Log("collide bridge");
+            var bridge = hit.collider.GetComponent<Bridge>();
+            if (bridge == null)
+            {
+                Debug.LogError("bridge null roi T.T");
+                return;
+            }
+
+            if (!bridge.CanFill()) // bridge is already fill
+            {
+                return;
+            } 
+            //if bridge is not fill and player doesn't have enough brick to fill
+            if (!CanFillBridge())
+            {
+                isMoving = false;
+                Move(Vector3.zero);
+                return;
+            }
+            //fill bridge
+            Debug.Log("Fill bridge");
+           
+            bridge.PlayerFillBridge();
+            RemoveBrick();
+          
         }
     }
     private bool CheckCollideWithWall()

@@ -221,8 +221,44 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bridge
       objectReference: {fileID: 0}
+    - target: {fileID: 3514014238750037123, guid: a7b3c3a7041328d488e5da3a8382b8e4, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7b3c3a7041328d488e5da3a8382b8e4, type: 3}
+--- !u!1 &1926177356137239905 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3514014238750037123, guid: a7b3c3a7041328d488e5da3a8382b8e4, type: 3}
+  m_PrefabInstance: {fileID: 3062273253275484642}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &2396968603266643591
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1926177356137239905}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 0.4979806, z: 1}
+  m_Center: {x: 0, y: 0.3065536, z: 0}
+--- !u!114 &5666667787343143422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1926177356137239905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16dab64752ad3d94580934e557e8c95c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  emptyTileObj: {fileID: 7180453022254503875}
+  fillTileObj: {fileID: 8599606539818803428}
 --- !u!4 &3121849149290017541 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 84556903616819943, guid: a7b3c3a7041328d488e5da3a8382b8e4, type: 3}
