@@ -730,9 +730,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2217b453bfc5d648bb35d57e576899d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 10
+  moveSpeed: 15
   checkRaycastPoint: {fileID: 1509157269}
-  distanceCheckRaycast: 0.53
+  distanceCheckRaycast: 0.55
   wallLayerMask:
     serializedVersion: 2
     m_Bits: 64
@@ -4040,7 +4040,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 143937228}
-  offset: {x: 0, y: 14, z: -8.3}
+  offset: {x: 0, y: 17.53, z: -12.4}
   speedFollow: 5
 --- !u!1 &573910245
 GameObject:

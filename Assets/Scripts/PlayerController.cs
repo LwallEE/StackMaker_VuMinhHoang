@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
     
     private List<Transform> bricksList;
-    private Rigidbody rigidbody;
+    private Rigidbody rigidbodyy;
 
     private Vector2 startTouchPos;
 
@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        rigidbody = GetComponent<Rigidbody>();
+        rigidbodyy = GetComponent<Rigidbody>();
         animator = GetComponentInChildren<Animator>();
     }
 
@@ -152,7 +152,7 @@ public class PlayerController : MonoBehaviour
     private void Move(Vector3 direction)
     {
         //Debug.Log("Move " + direction);
-        rigidbody.velocity = direction;
+        rigidbodyy.velocity = direction;
     }
     private void CheckCollide()
     {
@@ -161,6 +161,7 @@ public class PlayerController : MonoBehaviour
             if (CheckCollideWithWall())
             {
                 //Debug.Log("CollideWall");
+                FixPlayerPosition();
                 ChangeToIdle();
             }
             FillBridge();
@@ -222,7 +223,7 @@ public class PlayerController : MonoBehaviour
         Physics.Raycast(checkRaycastPoint.position, moveDirection,out hit, distanceCheckRaycast, brickLayerMask);
         if (hit.collider != null)
         {
-            Debug.Log("Get brick");
+           // Debug.Log("Get brick");
             var brick = hit.collider.GetComponent<Brick>();
             if (brick != null && brick.CanGetBrick())
             {
@@ -232,23 +233,12 @@ public class PlayerController : MonoBehaviour
         }
     }
     #endregion
+
+    #region HandleBridge
     private bool CanFillBridge()
     {
         return bricksList.Count > 0;
     }
-   
-    
-   
-
-    private void ChangeToIdle()
-    {
-        isMoving = false;
-        Move(Vector3.zero);
-        animator.SetBool(JumpAnimName, false);
-        animator.SetBool(WinAnimName, false);
-    }
-   
-
     private void FillBridge()
     {
         
@@ -271,22 +261,68 @@ public class PlayerController : MonoBehaviour
             //if bridge is not fill and player doesn't have enough brick to fill
             if (!CanFillBridge())
             {
+                FixPlayerPosition();
                 ChangeToIdle();
                 return;
             }
             //fill bridge
-           // Debug.Log("Fill bridge");
+            // Debug.Log("Fill bridge");
            
             bridge.PlayerFillBridge();
             RemoveBrick();
           
         }
     }
+    
+
+    #endregion
+   
+    
+   
+    //fix player position to the center of tile
+    //size of each tile is (1,1)
+    void FixPlayerPosition()
+    {
+        // Debug.Log(transform.position + " " + transform.position.x/0.5f + " "+transform.position.z/0.5f);
+        float numberX = (float)Math.Round(transform.position.x / 0.5f);
+        float numberY = (float)Math.Round(transform.position.z / 0.5f);
+//        Debug.Log(numberX + " " + numberY);
+        transform.position = new Vector3(numberX * 0.5f, 0, numberY * 0.5f);
+    }
+    private void ChangeToIdle()
+    {
+        //fix position to the center
+        isMoving = false;
+        Move(Vector3.zero);
+        animator.SetBool(JumpAnimName, false);
+        animator.SetBool(WinAnimName, false);
+    }
+    private void ChangeToWinState()
+    {
+        isMoving = false;
+        isStart = false;
+        Move(Vector3.zero);
+        animator.SetBool(JumpAnimName, false);
+        animator.SetBool(WinAnimName, true);
+        GameController.Instance.currentGameScore = bricksList.Count;
+        ClearAllBrick();
+        GameController.Instance.ChangeState(GameState.FinishGame);
+    }
+   
+
+   
     private bool CheckCollideWithWall()
     {
         return Physics.Raycast(checkRaycastPoint.position, moveDirection, distanceCheckRaycast, wallLayerMask);
     }
-
+    private void BounceToDirection(Vector3 direction)
+    {
+        moveDirection = direction;
+        
+        isMoving = true;
+        Move(moveDirection*moveSpeed);
+    }
+   
     private void OnDrawGizmos()
     {
         Gizmos.DrawLine(checkRaycastPoint.position, checkRaycastPoint.position + Vector3.right*distanceCheckRaycast);
@@ -301,31 +337,16 @@ public class PlayerController : MonoBehaviour
 
         if (other.CompareTag("BouncePlatform"))
         {
-            Debug.Log("Bounce");
+           // Debug.Log("Bounce");
+            FixPlayerPosition();
             var bounce = other.GetComponent<BounceObj>();
             BounceToDirection(bounce.GetDirectionBounce(moveDirection));
         }
     }
 
-    private void BounceToDirection(Vector3 direction)
-    {
-        moveDirection = direction;
-        
-        isMoving = true;
-        Move(moveDirection*moveSpeed);
-    }
-
-    private void ChangeToWinState()
-    {
-        isMoving = false;
-        isStart = false;
-        Move(Vector3.zero);
-        animator.SetBool(JumpAnimName, false);
-        animator.SetBool(WinAnimName, true);
-        GameController.Instance.currentGameScore = bricksList.Count;
-        ClearAllBrick();
-        GameController.Instance.ChangeState(GameState.FinishGame);
-    }
+   
+   
+   
 }
 
 public enum PlayerMoveDirection

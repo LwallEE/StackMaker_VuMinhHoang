@@ -7,6 +7,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2159540965699133597, guid: 7bf8f98ce5cfab743bb665671862dfc8, type: 3}
+      propertyPath: m_Size.x
+      value: 0.53557307
+      objectReference: {fileID: 0}
+    - target: {fileID: 2159540965699133597, guid: 7bf8f98ce5cfab743bb665671862dfc8, type: 3}
+      propertyPath: m_Center.x
+      value: 0.23221347
+      objectReference: {fileID: 0}
     - target: {fileID: 3983179793815767166, guid: 7bf8f98ce5cfab743bb665671862dfc8, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0
