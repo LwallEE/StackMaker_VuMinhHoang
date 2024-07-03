@@ -104,7 +104,7 @@ public class PlayerController : MonoBehaviour
     private void UpdateUserMoveDirection()
     {
         var direction = (endTouchPos - startTouchPos).normalized;
-        
+        //convert direction to 4 directions left, right, forward, back
         if (Math.Abs(direction.y) > Math.Abs(direction.x))
         {
             if (direction.y > 0)
@@ -127,6 +127,7 @@ public class PlayerController : MonoBehaviour
                 moveDirectionEnum = PlayerMoveDirection.Left;
             }
         }
+        //Assign movedirection
         //Debug.Log(moveDirectionEnum);
         if (moveDirectionEnum == PlayerMoveDirection.Left)
         {
@@ -159,7 +160,7 @@ public class PlayerController : MonoBehaviour
         {
             if (CheckCollideWithWall())
             {
-                Debug.Log("CollideWall");
+                //Debug.Log("CollideWall");
                 ChangeToIdle();
             }
             FillBridge();
@@ -255,7 +256,7 @@ public class PlayerController : MonoBehaviour
         Physics.Raycast(checkRaycastPoint.position, moveDirection,out hit, distanceCheckRaycast, bridgeLayerMask);
         if (hit.collider != null)
         {
-            Debug.Log("collide bridge");
+            //Debug.Log("collide bridge");
             var bridge = hit.collider.GetComponent<Bridge>();
             if (bridge == null)
             {
@@ -274,7 +275,7 @@ public class PlayerController : MonoBehaviour
                 return;
             }
             //fill bridge
-            Debug.Log("Fill bridge");
+           // Debug.Log("Fill bridge");
            
             bridge.PlayerFillBridge();
             RemoveBrick();

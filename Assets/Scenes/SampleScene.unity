@@ -7989,8 +7989,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mapPrefab:
-  - {fileID: 9185210257322588461, guid: ae18bb665e4faaf4f80948d68bfe68c6, type: 3}
   - {fileID: 5048706697486808621, guid: f23a975c252e8d8419c2c095ae14db82, type: 3}
+  - {fileID: 9185210257322588461, guid: ae18bb665e4faaf4f80948d68bfe68c6, type: 3}
+  - {fileID: 3124635358597084104, guid: 2ca50f36158b04c438f8ce558bb59c5d, type: 3}
+  - {fileID: 6660858813529578483, guid: 7c1989d235d8da844bd143c4bf9451e0, type: 3}
+  - {fileID: 3684559561697537483, guid: fe1c0134db5abc24a92b652f0c034e42, type: 3}
 --- !u!4 &1311842023
 Transform:
   m_ObjectHideFlags: 0
@@ -10819,7 +10822,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1429489632
 RectTransform:
   m_ObjectHideFlags: 0
