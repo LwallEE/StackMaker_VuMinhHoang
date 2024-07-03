@@ -192,7 +192,8 @@ public class PlayerController : MonoBehaviour
            
             bricksList.RemoveAt(bricksList.Count-1);
             
-            UpdateVisualBricks();
+            //UpdateVisualBricks();
+            UpdateVisualWithoutBrick();
         }
     }
 
@@ -215,6 +216,12 @@ public class PlayerController : MonoBehaviour
         }
 
         playerVisual.transform.localPosition = pos;
+    }
+
+    //update visual without update brick, only player
+    private void UpdateVisualWithoutBrick()
+    {
+        playerVisual.transform.localPosition = Vector3.up * bricksList.Count * distanceBetweenBrick;
     }
     
     private void CollectBrick()
