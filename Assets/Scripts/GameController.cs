@@ -78,7 +78,7 @@ public class GameController : MonoBehaviour
 
     public void LoadCurrentLevelOfPlayer()
     {
-        LevelManager.Instance.LoadMap(0);
+        LevelManager.Instance.LoadMap(PlayerData.CurrentLevel);
         ChangeState(GameState.InGame);
     }
 }

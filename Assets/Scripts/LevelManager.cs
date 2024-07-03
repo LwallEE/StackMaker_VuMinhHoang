@@ -23,6 +23,7 @@ public class LevelManager : MonoBehaviour
 
         currentMap = Instantiate(mapPrefab[index].gameObject).GetComponent<Map>();
         currentMapIndex = index;
+        PlayerData.CurrentLevel = index;
     }
 
     public int GetMapIndex()
