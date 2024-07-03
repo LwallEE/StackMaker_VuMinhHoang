@@ -12,13 +12,16 @@ public class LazyPool : MonoBehaviour
         Instance = this;
     }
 
-    public GameObject getObj(GameObject objKey)
+    public GameObject GetObj(GameObject objKey)
     {
+        //if pool doesn't have type of object yet
         if (!_poolObjt.ContainsKey(objKey))
         {
             _poolObjt.Add(objKey, new List<GameObject>());
         }
-
+        
+        //if pool has type of object and object available
+        //return object
         foreach (GameObject g in _poolObjt[objKey])
         {
             if (g.activeInHierarchy)
@@ -26,16 +29,16 @@ public class LazyPool : MonoBehaviour
             g.SetActive(true);
             return g;
         }
-
+        //if doesn't have available object, create new one
         GameObject g2 = Instantiate(objKey, transform);
         _poolObjt[objKey].Add(g2);
         return g2;
         
     }
 
-    public T getObj<T>(GameObject objKey) where T : Component
+    public T GetObj<T>(GameObject objKey) where T : Component
     {
-        return this.getObj(objKey).GetComponent<T>();
+        return this.GetObj(objKey).GetComponent<T>();
     }
 
     public void AddObjectToPool(GameObject obj)

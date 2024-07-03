@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour
     private bool isMoving;
     private static readonly int JumpAnimName = Animator.StringToHash("Jump");
     private static readonly int WinAnimName = Animator.StringToHash("Win");
-
+    private bool isStart;
 
     private void Awake()
     {
@@ -47,17 +47,42 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        ResetStart();
+        GameController.Instance.OnGameStateChanged += OnGameStateChanged;
+    }
+
+    private void OnDestroy()
+    {
+        GameController.Instance.OnGameStateChanged -= OnGameStateChanged;
+    }
+
+    private void OnGameStateChanged(GameState obj)
+    {
+        if (obj == GameState.InGame)
+        {
+            Invoke(nameof(ResetStart), 0.5f);
+            transform.position = LevelManager.Instance.GetSpawnPositionOfPlayer();
+            ChangeToIdle();
+        }
+    }
+
+    void ResetStart()
+    {
+        isStart = true;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!GameController.Instance.IsInState(GameState.InGame) || !isStart)
+            return;
         HandleUserInput();
     }
 
     private void FixedUpdate()
     {
+        if (!GameController.Instance.IsInState(GameState.InGame) || !isStart)
+            return;
         CheckCollide();
     }
 
@@ -145,7 +170,7 @@ public class PlayerController : MonoBehaviour
     #region HandleBrick
     private void AddBricks()
     {
-        var brick = LazyPool.Instance.getObj(brickPrefabs);
+        var brick = LazyPool.Instance.GetObj(brickPrefabs);
         brick.transform.SetParent(brickParent);
         animator.SetBool(JumpAnimName, true);
         if (bricksList == null)
@@ -219,6 +244,7 @@ public class PlayerController : MonoBehaviour
         isMoving = false;
         Move(Vector3.zero);
         animator.SetBool(JumpAnimName, false);
+        animator.SetBool(WinAnimName, false);
     }
    
 
@@ -291,10 +317,13 @@ public class PlayerController : MonoBehaviour
     private void ChangeToWinState()
     {
         isMoving = false;
+        isStart = false;
         Move(Vector3.zero);
         animator.SetBool(JumpAnimName, false);
         animator.SetBool(WinAnimName, true);
+        GameController.Instance.currentGameScore = bricksList.Count;
         ClearAllBrick();
+        GameController.Instance.ChangeState(GameState.FinishGame);
     }
 }
 

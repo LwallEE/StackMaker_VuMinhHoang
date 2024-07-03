@@ -25,8 +25,24 @@ public class LevelManager : MonoBehaviour
         currentMapIndex = index;
     }
 
+    public int GetMapIndex()
+    {
+        return currentMapIndex;
+    }
     public void LoadNextMap()
     {
         LoadMap((currentMapIndex+1)%mapPrefab.Count);
+    }
+
+    public void LoadCurrentMap()
+    {
+        LoadMap(currentMapIndex);
+    }
+
+    public Vector3 GetSpawnPositionOfPlayer()
+    {
+        if(currentMap != null)
+            return currentMap.GetSpawnPosition();
+        return Vector3.zero;
     }
 }
